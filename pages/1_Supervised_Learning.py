@@ -1,11 +1,12 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_iris, load_diabetes
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, mean_squared_error, r2_score
 import plotly.express as px
+import plotly.graph_objects as go
 
 #Page title
 st.title("📊 Supervised Learning")
@@ -56,7 +57,7 @@ with col2:
         title='Iris Dataset - Sepal Dimensions',
         color_discrete_sequence=['#FF6B6B', '#4ECDC4', '#45B7D1']
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 # Train model
 X = iris.data
@@ -101,7 +102,116 @@ fig_cm = px.imshow(
     color_continuous_scale='Blues'
 )
 
-st.plotly_chart(fig_cm, use_container_width=True)
+st.plotly_chart(fig_cm, width='stretch')
 
 # Educational tip
 st.info("💡 **Try this:** Change the test size slider to see how it affects accuracy!")
+
+# ================================================
+# REGRESSION SECTION
+# ================================================
+
+st.markdown("---")
+st.subheader("🏠 Regression: Diabetes Progression")
+
+# Load Diabetes progression dataset
+
+diabetes = load_diabetes()
+diabetes_df = pd.DataFrame(diabetes.data, columns=diabetes.feature_names)
+diabetes_df['progression'] = diabetes.target
+
+st.write("**Dataset Info:**")
+st.write("Predicting disease progression one year after baseline")
+st.write(f"📊 {diabetes_df.shape[0]} samples, {diabetes_df.shape[1]-1} features")
+
+# Train regression model
+X_diabetes = diabetes.data
+y_diabetes = diabetes.target
+
+X_train_d, X_test_d, y_train_d, y_test_d = train_test_split(
+    X_diabetes, y_diabetes,
+    test_size=test_size/100,
+    random_state=int(random_state)
+)
+
+# Linear Regression
+reg_model = LinearRegression()
+reg_model.fit(X_train_d, y_train_d)
+y_pred_d = reg_model.predict(X_test_d)
+
+#Calculate metrics
+rmse = np.sqrt(mean_squared_error(y_test_d, y_pred_d))
+r2 = r2_score(y_test_d, y_pred_d)
+
+# Predictions vs Actual scatter plot
+fig_reg = go.Figure()
+
+# Add scatter points
+fig_reg.add_trace(go.Scatter(
+    x=y_test_d,
+    y=y_pred_d,
+    mode='markers',
+    name='Predictions',
+    marker=dict(
+        size=6,
+        color=np.abs(y_test_d - y_pred_d),
+        colorscale='Viridis',
+        showscale=True,
+        colorbar=dict(title="Error")
+    ),
+    text=[f'Actual: {a:.1f}<br>Predicted: {p:.1f}'
+         for a, p in zip(y_test_d, y_pred_d)],
+    hovertemplate='%{text}<extra></extra>'
+))
+
+# Add perfect prediction line
+max_val = max(y_test_d.max(), y_pred_d.max())
+min_val = min(y_test_d.min(), y_pred_d.min())
+fig_reg.add_trace(go.Scatter(
+    x=[min_val, max_val],
+    y=[min_val, max_val],
+    mode='lines',
+    name='Perfect Predictions',
+    line=dict(color='red', dash='dash', width=2)
+))
+
+fig_reg.update_layout(
+    title='Predictions vs Actual Values',
+    xaxis_title='Actual Progression',
+    yaxis_title='Predicted Progression',
+    hovermode='closest',
+    legend=dict(
+        orientation="h",  # Horizontal
+        yanchor="bottom",
+        y=1.02,          # Just above plot
+        xanchor="center",
+        x=0.5            # Centered
+    ),
+    margin=dict(t=100)   # Space for legend
+)
+
+st.plotly_chart(fig_reg, width='stretch')
+
+# Regression metrics
+st.subheader("📈 Regression Metrics")
+
+reg_col1, reg_col2, reg_col3 = st.columns(3)
+
+with reg_col1:
+    st.metric("RMSE", f"{rmse:.2f}")
+    st.caption("(Lower is better)")
+
+with reg_col2:
+    st.metric("R² Score", f"{r2:.3f}")
+    st.caption("(Closer to 1.0 is better)")
+
+with reg_col3:
+    st.metric("Test samples", len(X_test_d))
+
+
+st.info("""
+💡 **Understanding the metrics:**
+- **RMSE** (Root Mean Square Error): Average prediction error
+- **R²** (R-squared): How well the model explains the variance (1.0 = perfect)
+- Points near the red line = good predictions
+""")
