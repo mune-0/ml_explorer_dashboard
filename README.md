@@ -13,7 +13,7 @@ Interactive web application demonstrating three machine learning paradigms.
 - Home page with ML paradigm overview
 - Supervised Learning:
   - Iris flower classification (Logistic Regression)
-  - California housing regression (Linear Regression)
+  - Diabetes (Progression) regression (Linear Regression)
   - Interactive train/test split
   - Real-time accuracy and error metrics
   - Confusion matrix visualization
