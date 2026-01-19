@@ -64,8 +64,8 @@ ml_explorer_dashboard/ <br>
 &nbsp;&nbsp;├── requirements.txt # Dependencies  ✅ <br>
 &nbsp;&nbsp;├── README.md # Documentation  ✅ <br>
 &nbsp;&nbsp;└── pages/ <br>
-&nbsp;&nbsp;&nbsp;&nbsp;├── 1_Supervised_Learning.py # Classification & Regression ✅ <br>
-&nbsp;&nbsp;&nbsp;&nbsp;└── 2_Unsupervised_Learning.py # Clustering & PCA ✅ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 1_Supervised_Learning.py # Classification & Regression ✅ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 2_Unsupervised_Learning.py # Clustering & PCA ✅ 
 
 ## Author 
 Josue Munezero
