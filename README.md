@@ -4,7 +4,7 @@ Interactive web application demonstrating three machine learning paradigms.
 
 ## Status
 ✅ Day 1 Complete: Home page + Supervised Learning  
-🚧 Day 2 In Progress: Unsupervised Learning  
+✅ Day 2 Complete: Unsupervised Learning  
 ⏳ Day 3 Planned: Reinforcement Learning  
 
 ## Features
@@ -13,15 +13,18 @@ Interactive web application demonstrating three machine learning paradigms.
 - Home page with ML paradigm overview
 - Supervised Learning:
   - Iris flower classification (Logistic Regression)
-  - Diabetes (Progression) regression (Linear Regression)
+  - California housing regression (Linear Regression)
   - Interactive train/test split
   - Real-time accuracy and error metrics
   - Confusion matrix visualization
+- Unsupervised Learning:
+  - K-Means clustering with adjustable k
+  - PCA dimensionality reduction (4D → 2D)
+  - Silhouette score analysis
+  - Interactive cluster visualization
+  - Explained variance analysis
 
 ### 🚧 In Progress
-- Unsupervised Learning (K-Means, PCA)
-
-### ⏳ Planned
 - Reinforcement Learning (Q-learning)
 
 ## Tech Stack
@@ -56,12 +59,12 @@ streamlit run app.py
 Open your browser to http://localhost:8501
 
 ## Project Structure
-ml_explorer_dashboard/
-├── app.py                          # Home page
-├── requirements.txt                # Python dependencies
-├── README.md                       # This file
-└── pages/
-    └── 1_Supervised_Learning.py   # Classification & Regression ✅
+ml_explorer_dashboard/ 
+├── app.py # Home page 
+✅ ├── requirements.txt # Dependencies 
+✅ ├── README.md # Documentation 
+✅ └── pages/ ├── 1_Supervised_Learning.py # Classification & Regression 
+✅ └── 2_Unsupervised_Learning.py # Clustering & PCA ✅
 
 ## Author 
 Josue Munezero
