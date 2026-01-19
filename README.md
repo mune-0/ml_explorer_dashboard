@@ -59,12 +59,13 @@ streamlit run app.py
 Open your browser to http://localhost:8501
 
 ## Project Structure
-ml_explorer_dashboard/ 
-├── app.py # Home page 
-✅ ├── requirements.txt # Dependencies 
-✅ ├── README.md # Documentation 
-✅ └── pages/ ├── 1_Supervised_Learning.py # Classification & Regression 
-✅ └── 2_Unsupervised_Learning.py # Clustering & PCA ✅
+ml_explorer_dashboard/ <br>
+├── app.py # Home page ✅ <br>
+├── requirements.txt # Dependencies  ✅ <br>
+├── README.md # Documentation  ✅ <br>
+└── pages/ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 1_Supervised_Learning.py # Classification & Regression ✅ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 2_Unsupervised_Learning.py # Clustering & PCA ✅ 
 
 ## Author 
 Josue Munezero
