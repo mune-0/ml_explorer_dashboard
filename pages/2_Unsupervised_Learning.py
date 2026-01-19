@@ -120,3 +120,61 @@ st.info("""
 - Notice the silhouette score change
 - Find the optimal k value!
 """)
+
+# ====================================
+# PCA ANALYSIS
+# ====================================
+
+st.subheader("🔬 PCA ANALYSIS")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.write("**Explained Variance:**")
+    explained_var = pca.explained_variance_ratio_
+    st.write(f"• PC1 explains: **{explained_var[0]:.1%}** of variance")
+    st.write(f"• PC2 explains: **{explained_var[1]:.1%}** of variance")
+    st.write(f"• Total explained: **{sum(explained_var):.1%}**")
+
+    st.info("""
+            💡 PCA reduces 4D data to 2D while keeping most information!
+            """)
+
+with col2:
+    # Variance bar chart
+    fig_var = px.bar(
+        x=['PC1', 'PC2'],
+        y=explained_var,
+        title='Explained Variance by Component',
+        labels={'x': 'Component', 'y': 'Variance Explained'},
+        color=explained_var,
+        color_continuous_scale='Blues'
+    )
+    fig_var.update_layout(showlegend=False, height=300)
+    st.plotly_chart(fig_var, use_container_width=True)
+
+# =====================================
+# EDUCATIONAL SECTION
+# =====================================
+
+st.markdown("---")
+st.markdown(f"""
+### 💡 Understanding Unsupervised Learning
+
+**What just happened?**
+1. Generated {n_samples} random data points in 4D space
+2. K-Means found {n_clusters} clusters (groups of similar points)
+3. PCA reduced 4D to 2D for visualization
+4. Silhouette score measures cluster quality
+
+**Try this:**
+- Too few clusters (k=2) = groups combined
+- Optimal clusters (k=4-5) = clear separation
+- Too many clusters (k=10) = unnecessary splits
+
+**Real-world applications:**
+- Customer segmentation (marketing)
+- Document clustering (organizing articles)
+- Image compression (reducing file size)
+- Anomaly detection (finding outliers)
+""")
