@@ -1,44 +1,63 @@
 # ML Explorer Dashboard
 
-Interactive web application demonstrating three machine learning paradigms.
+Interactive web application demonstrating three machine learning paradigms through hands-on visualizations.
 
-## Status
-✅ Day 1 Complete: Home page + Supervised Learning  
-✅ Day 2 Complete: Unsupervised Learning  
-⏳ Day 3 Planned: Reinforcement Learning  
+## ✨ Features
 
-## Features
+### Home Page
+- Clean, professional landing page
+- Overview of three ML paradigms
+- Easy navigation
 
-### ✅ Completed
-- Home page with ML paradigm overview
-- Supervised Learning:
-  - Iris flower classification (Logistic Regression)
-  - California housing regression (Linear Regression)
-  - Interactive train/test split
-  - Real-time accuracy and error metrics
+### 📊 Supervised Learning
+- **Iris Flower Classification**
+  - Logistic Regression model
+  - Interactive train/test split (10-50%)
+  - Real-time accuracy metrics
   - Confusion matrix visualization
-- Unsupervised Learning:
-  - K-Means clustering with adjustable k
-  - PCA dimensionality reduction (4D → 2D)
-  - Silhouette score analysis
-  - Interactive cluster visualization
-  - Explained variance analysis
+  - Scatter plot with species coloring
+  
+- **California Housing Regression**
+  - Linear Regression model
+  - Predictions vs actual scatter plot
+  - RMSE and R² metrics
+  - Error visualization with color coding
 
-### 🚧 In Progress
-- Reinforcement Learning (Q-learning)
+### 🔍 Unsupervised Learning
+- **K-Means Clustering**
+  - Adjustable cluster count (k=2 to k=10)
+  - Dynamic sample size (100-1000)
+  - Silhouette score quality metric
+  - Cluster center visualization
+  
+- **PCA Analysis**
+  - 4D → 2D dimensionality reduction
+  - Explained variance by component
+  - Interactive variance bar chart
 
-## Tech Stack
-- Python 3.8+
-- Streamlit - Web framework
-- scikit-learn - ML algorithms
-- Plotly - Interactive visualizations
-- NumPy & Pandas - Data manipulation
+### 🎮 Reinforcement Learning
+- **Q-Learning Grid World**
+  - 5×5 navigation environment
+  - Configurable learning parameters (α, γ, ε)
+  - Training with progress visualization
+  - Rewards over time chart
+  - Q-values heatmap showing learned policy
+  - Reset functionality
 
-## Installation
+## 🛠️ Tech Stack
+
+- **Python 3.8+**
+- **Streamlit** - Web framework for rapid prototyping
+- **scikit-learn** - Machine learning algorithms
+- **Plotly** - Interactive visualizations
+- **NumPy** - Numerical computing
+- **Pandas** - Data manipulation
+
+## 📦 Installation
 
 ```bash
-# Clone repository
-git clone <your-repo-url>
+# Fork and Clone Repository
+git clone <your-forked-repo-url>
 cd ml_explorer_dashboard
 
 # Create virtual environment
@@ -47,8 +66,9 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+```
 
-## Usage
+## 🚀 Usage
 ```bash
 # Activate virtual environment
 source venv/bin/activate
@@ -56,19 +76,68 @@ source venv/bin/activate
 # Run application
 streamlit run app.py
 ```
+
 Open your browser to http://localhost:8501
 
-## Project Structure
-ml_explorer_dashboard/ <br>
-&nbsp;&nbsp;├── app.py # Home page ✅ <br>
-&nbsp;&nbsp;├── requirements.txt # Dependencies  ✅ <br>
-&nbsp;&nbsp;├── README.md # Documentation  ✅ <br>
-&nbsp;&nbsp;└── pages/ <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 1_Supervised_Learning.py # Classification & Regression ✅ <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 2_Unsupervised_Learning.py # Clustering & PCA ✅ 
+## 📁 Project Structure
 
-## Author 
-Josue Munezero
 
-## License
+```
+ml_explorer_dashboard/
+├── app.py                          # Home page
+├── requirements.txt                # Python dependencies
+├── README.md                       # Documentation
+├── .gitignore                      # Git ignore rules
+└── pages/
+    ├── 1_Supervised_Learning.py   # Classification & Regression
+    ├── 2_Unsupervised_Learning.py # Clustering & PCA
+    └── 3_Reinforcement_Learning.py# Q-learning
+```
+
+## 📚 What I Learned
+
+### Technical Skills
+- Streamlit web framework
+- scikit-learn ML library
+- Plotly interactive visualizations
+- Git version control
+- Python virtual environments
+
+### ML Concepts
+- Supervised learning (classification vs regression)
+- Model evaluation (accuracy, RMSE, R²)
+- Unsupervised learning (clustering, PCA)
+- Reinforcement learning (Q-learning, Bellman equation)
+- Train/test split importance
+
+## 🎯 Key Features
+
+- **Interactive Controls:** Sliders and buttons that update visualizations in real-time
+- **Educational Content:** Explanations and tips throughout
+- **Professional Design:** Clean, consistent UI/UX
+- **Well-Organized Code:** Modular structure with clear comments
+- **Git Best Practices:** Atomic commits with descriptive messages
+
+## 📈 Development Timeline
+
+- **Day 0:** Project setup and dependencies
+- **Day 1:** Home page + Supervised learning
+- **Day 2:** Unsupervised learning
+- **Day 3:** Reinforcement learning
+- **Total:** 15+ meaningful commits
+
+## 🔮 Future Enhancements
+
+Potential additions:
+- Additional datasets (wine, diabetes, MNIST)
+- More algorithms (SVM, Random Forest, Neural Networks)
+- Model comparison features
+- Data upload functionality
+- Dark mode toggle
+- Downloadable reports
+
+## 👤 Author 
+Josue Munezero - [LinkedIn](https://www.linkedin.com/in/josue-munezero/)
+
+## 📄 License
 MIT License
