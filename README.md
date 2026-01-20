@@ -17,7 +17,7 @@ Interactive web application demonstrating three machine learning paradigms throu
   - Confusion matrix visualization
   - Scatter plot with species coloring
   
-- **California Housing Regression**
+- **Diabetes Progression**
   - Linear Regression model
   - Predictions vs actual scatter plot
   - RMSE and R² metrics
