@@ -8,6 +8,13 @@ from sklearn.metrics import silhouette_score
 import plotly.express as px
 import plotly.graph_objects as go
 
+# Page configuration - MUST be first Streamlit command
+st.set_page_config(
+    page_title="ML Explorer Dashboard - Unsupervised Learning",
+    page_icon="🤖",
+    layout="wide"
+)
+
 # Page title
 st.title("🔍 Unsupervised Learning")
 st.markdown("## Clustering and Dimensionality Reduction")

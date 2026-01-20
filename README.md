@@ -74,7 +74,7 @@ pip install -r requirements.txt
 source venv/bin/activate
 
 # Run application
-streamlit run app.py
+streamlit run Home.py
 ```
 
 Open your browser to http://localhost:8501
@@ -84,7 +84,7 @@ Open your browser to http://localhost:8501
 
 ```
 ml_explorer_dashboard/
-├── app.py                          # Home page
+├── Home.py                         # Home page
 ├── requirements.txt                # Python dependencies
 ├── README.md                       # Documentation
 ├── .gitignore                      # Git ignore rules

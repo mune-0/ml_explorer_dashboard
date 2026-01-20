@@ -8,6 +8,13 @@ from sklearn.metrics import accuracy_score, confusion_matrix, mean_squared_error
 import plotly.express as px
 import plotly.graph_objects as go
 
+# Page configuration - MUST be first Streamlit command
+st.set_page_config(
+    page_title="ML Explorer Dashboard - Supervised Learning",
+    page_icon="🤖",
+    layout="wide"
+)
+
 #Page title
 st.title("📊 Supervised Learning")
 st.markdown("## Classification and Regression Demos")

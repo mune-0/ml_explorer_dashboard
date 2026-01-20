@@ -2,6 +2,13 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 
+# Page configuration - MUST be first Streamlit command
+st.set_page_config(
+    page_title="ML Explorer Dashboard - Reinforcement Learning",
+    page_icon="🤖",
+    layout="wide"
+)
+
 # Page title
 st.title("🎮 Reinforcement Learning")
 st.markdown("## Q-Learning Grid World")
