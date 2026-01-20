@@ -1,0 +1,189 @@
+import streamlit as st
+import numpy as np
+import plotly.graph_objects as go
+
+# Page title
+st.title("🎮 Reinforcement Learning")
+st.markdown("## Q-Learning Grid World")
+
+# ====================================
+# SESSION STATE INITIALIZATION
+# ====================================
+
+# Initialize Q-table in session state
+if 'q_table' not in st.session_state:
+    st.session_state.q_table = np.zeros((5, 5, 4)) # 5x5 grid, 4 actions
+    st.session_state.episodes_run = 0
+    st.session_state.rewards_history = []
+
+# ====================================
+# PARAMETERS
+# ====================================
+
+# Sidebar parameters
+st.sidebar.header("Q-Learning Parameters")
+learning_rate = st.sidebar.slider("Learning Rate (α)", 0.1, 1.0, 0.8, 0.1)
+discount = st.sidebar.slider("Discount Factor (γ)", 0.1, 1.0, 0.95, 0.05)
+epsilon = st.sidebar.slider("Exploration Rate (ε)", 0.0, 1.0, 0.1, 0.05)
+
+episodes_to_train = st.sidebar.number_input(
+    "Episodes to train",
+    min_value=1,
+    max_value=1000,
+    value=100
+)
+
+# ===================================
+# GRID WORLD CONSTANTS
+# ===================================
+
+GRID_SIZE = 5
+START = (0, 0)
+GOAL = (4, 4)
+ACTIONS = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # right, down, left, up
+ACTION_NAMES = ['→', '↓', '←', '↑']
+
+# ==================================
+# Q-LEARNING ALGORITHM
+# ==================================
+
+def train_episode(q_table, learning_rate, discount, epsilon):
+    """Run one episode of Q-learning"""
+    state = START
+    episode_reward = 0
+    steps = 0
+
+    while state != GOAL and steps < 50:
+        # Epsilon-greedy action selection
+        if np.random.random() < epsilon:
+            action = np.random.randint(4) # Explore
+        else:
+            action = np.argmax(q_table[state[0], state[1], :]) # Exploit
+
+            # Take action
+            new_row = max(0, min(GRID_SIZE-1, state[0] + ACTIONS[action][0]))
+            new_col = max(0, min(GRID_SIZE-1, state[1] + ACTIONS[action][1]))
+            new_state = (new_row, new_col)
+
+            # Calculate reward
+            if new_state == GOAL:
+                reward = 100
+            else:
+                reward = -1
+            episode_reward += reward
+
+            # Q-learning update (Bellman equation)
+            old_value = q_table[state[0], state[1], action]
+            next_max = np.max(q_table[new_state[0], new_state[1], :])
+            new_value = old_value + learning_rate * (
+                reward + discount * next_max - old_value
+            )
+            q_table[state[0], state[1], action] = new_value
+
+            state = new_state
+            steps += 1
+
+    return episode_reward
+
+# ========================================
+# INFO SECTION
+# ========================================
+
+st.info("""
+🎯 **Goal:** Train an agent to navigate from START (0,0) to GOAL (4,4)
+
+**How it works:**
+- Agent learns through trial and error
+- Receives +100 reward for reaching goal, -1 for each step
+- Q-values represent "quality" of taking each action in each state
+- Higher Q-value = better action
+""")
+
+# ========================================
+# TRAINING SECTION
+# ========================================
+
+col1, col2 = st.columns([1, 2])
+
+with col1:
+    if st.button("🚀 Train Agent", type="primary"):
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+
+        rewards = []
+        for i in range(episodes_to_train):
+            reward = train_episode(
+                st.session_state.q_table,
+                learning_rate,
+                discount,
+                epsilon
+            )
+            rewards.append(reward)
+            st.session_state.rewards_history.append(reward)
+
+            # Update progress
+            progress_bar.progress((i + 1) / episodes_to_train)
+            status_text.text(f"Training... {i+1}/{episodes_to_train}")
+
+        st.session_state.episodes_run += episodes_to_train
+        progress_bar.empty()
+        status_text.empty()
+        st.success(f"✅ Trained {episodes_to_train} episodes!")
+
+    if st.button("🔄 Reset Agent"):
+        st.session_state.q_table = np.zeros((5, 5, 4))
+        st.session_state.episodes_run = 0
+        st.session_state.rewards_history = []
+        st.success("Agent reset!")
+
+with col2:
+    st.metric("Total Episodes Trained", st.session_state.episodes_run)
+
+# ========================================
+# Q-VALUES VISUALIZATION
+# ========================================
+
+st.subheader("🗺️ Learned Q-Values Heatmap")
+
+# Get max Q-value for each state
+q_values = np.max(st.session_state.q_table, axis=2)
+
+# Create heatmap
+fig_q = go.Figure(data=go.Heatmap(
+    z=q_values,
+    colorscale='Viridis',
+    text=np.round(q_values, 1),
+    texttemplate='%{text}',
+    textfont={"size": 10},
+    colorbar=dict(title="Q-Value")
+))
+
+# Add START and GOAL annotations
+fig_q.add_annotation(
+    x=0, y=0,
+    text="START",
+    showarrow=False,
+    font=dict(color='white', size=14, family='Arial Black')
+)
+fig_q.add_annotation(
+    x=4, y=4,
+    text="GOAL",
+    showarrow=False,
+    font=dict(color='white', size=14, family='Arial Black')
+)
+
+fig_q.update_layout(
+    title='Q-Values Heatmap (brighter = better)',
+    xaxis_title='Column',
+    yaxis_title='Row',
+    height=500
+)
+
+st.plotly_chart(fig_q, use_container_width=True)
+
+st.caption("""
+💡 **Interpretation:**
+- Brighter colors = higher Q-values = better states
+- As agent learns, path from START to GOAL becomes brighter
+- Dark areas are rarely visited or lead to poor outcomes
+""")
