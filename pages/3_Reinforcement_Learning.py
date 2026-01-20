@@ -48,7 +48,31 @@ ACTION_NAMES = ['→', '↓', '←', '↑']
 # ==================================
 
 def train_episode(q_table, learning_rate, discount, epsilon):
-    """Run one episode of Q-learning"""
+    """
+    Run one episode of Q-learning.
+
+    The agent starts at START and tries to reach GOAL by:
+    1. Choosing actions (epsilon-greedy)
+    2. Receiving rewards
+    3. Updating Q-values using Bellman equation
+
+    Parameters:
+    -----------
+    q_table : numpy.ndarray
+        3D array of Q-values (rows × cols × actions)
+    learning_rate : float
+        How much to update Q-values (0-1)
+    discount : float
+        How much to value future rewards (0-1)
+    epsilon : float
+        Probability of random action (0-1)
+
+    Returns:
+    --------
+    episode_reward : float
+        Total reward accumulated in this episode
+    """
+
     state = START
     episode_reward = 0
     steps = 0
