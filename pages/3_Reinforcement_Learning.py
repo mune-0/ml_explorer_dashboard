@@ -238,3 +238,53 @@ if st.session_state.episodes_run > 0:
             height=400
         )
         st.plotly_chart(fig_progress, use_container_width=True)
+
+# ========================================
+# EDUCATIONAL SECTION
+# ========================================
+
+st.markdown("---")
+st.markdown("""
+### 💡 Understanding Reinforcement Learning
+
+**What's happening:**
+1. Agent starts at (0,0) with no knowledge
+2. Takes random actions, gets rewards
+3. Updates Q-values based on results
+4. Over time, learns optimal path
+
+**Key Concepts:**
+- **Learning Rate (α):** How much to update Q-values
+  - Higher = faster learning but less stable
+  - Lower = slower but more stable
+
+- **Discount Factor (γ):** How much to value future rewards
+  - Higher = more long-term thinking
+  - Lower = focus on immediate rewards
+
+- **Exploration Rate (ε):** Probability of random action
+  - Higher = more exploration
+  - Lower = more exploitation of known good actions
+
+**Experiments to try:**
+1. **High learning rate (α=0.9):**
+   - Reset agent
+   - Train 100 episodes
+   - Notice: Learns fast but unstable
+
+2. **Low learning rate (α=0.3):**
+   - Reset agent
+   - Train 100 episodes
+   - Notice: Learns slowly but steady
+
+3. **More training:**
+   - Train 500 more episodes
+   - Watch path become very bright
+
+**Real-world applications:**
+- Game AI (chess, Go, video games)
+- Robotics (navigation, manipulation)
+- Resource management (traffic lights, power grids)
+- Trading strategies (stock market)
+- Recommendation systems
+""")
