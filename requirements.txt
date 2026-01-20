@@ -1,0 +1,12 @@
+# Web Framework
+streamlit>=1.30.0
+
+# Data Science Core
+numpy>=1.26.0
+pandas>=2.1.0
+
+# Machine Learning
+scikit-learn>=1.4.0
+
+# Visualization
+plotly>=5.18.0
