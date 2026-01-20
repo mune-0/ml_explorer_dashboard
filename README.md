@@ -104,6 +104,21 @@ ml_explorer_dashboard/
     └── 3_Reinforcement_Learning.py# Q-learning
 ```
 
+## 📸 Screenshots
+
+### Home Page
+![Home](screenshots/home_page.png)
+
+### Supervised Learning
+![Classification](screenshots/supervised_classification.png)
+![Regression](screenshots/supervised_regression.png)
+
+### Unsupervised Learning
+![Clustering](screenshots/unsupervised_clustering.png)
+
+### Reinforcement Learning
+![Q-Learning](screenshots/reinforcement_qvalues.png)
+
 ## 📚 What I Learned
 
 ### Technical Skills
