@@ -10,6 +10,8 @@
 
 Interactive web application demonstrating three machine learning paradigms through hands-on visualizations.
 
+🌐 **[Live Demo](https://ml-explorer-dashboard.streamlit.app/)** | 📁 **[GitHub](https://github.com/mune-0/ml_explorer_dashboard)**
+
 ## ✨ Features
 
 ### Home Page
