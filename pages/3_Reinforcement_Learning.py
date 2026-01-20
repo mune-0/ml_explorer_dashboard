@@ -60,28 +60,33 @@ def train_episode(q_table, learning_rate, discount, epsilon):
         else:
             action = np.argmax(q_table[state[0], state[1], :]) # Exploit
 
-            # Take action
-            new_row = max(0, min(GRID_SIZE-1, state[0] + ACTIONS[action][0]))
-            new_col = max(0, min(GRID_SIZE-1, state[1] + ACTIONS[action][1]))
-            new_state = (new_row, new_col)
+        # Take action
+        new_row = max(0, min(GRID_SIZE-1, state[0] + ACTIONS[action][0]))
+        new_col = max(0, min(GRID_SIZE-1, state[1] + ACTIONS[action][1]))
+        new_state = (new_row, new_col)
 
-            # Calculate reward
-            if new_state == GOAL:
-                reward = 100
-            else:
-                reward = -1
-            episode_reward += reward
+        # Calculate reward
+        if new_state == GOAL:
+            reward = 100
+        else:
+            reward = -1
+        episode_reward += reward
 
-            # Q-learning update (Bellman equation)
-            old_value = q_table[state[0], state[1], action]
+        # Q-learning update (Bellman equation)
+        old_value = q_table[state[0], state[1], action]
+
+        if new_state == GOAL:
+            next_max = 0 # No future value at terminal state
+        else:
             next_max = np.max(q_table[new_state[0], new_state[1], :])
-            new_value = old_value + learning_rate * (
-                reward + discount * next_max - old_value
-            )
-            q_table[state[0], state[1], action] = new_value
 
-            state = new_state
-            steps += 1
+        new_value = old_value + learning_rate * (
+            reward + discount * next_max - old_value
+        )
+        q_table[state[0], state[1], action] = new_value
+
+        state = new_state
+        steps += 1
 
     return episode_reward
 
@@ -148,6 +153,9 @@ st.subheader("🗺️ Learned Q-Values Heatmap")
 # Get max Q-value for each state
 q_values = np.max(st.session_state.q_table, axis=2)
 
+if st.session_state.episodes_run > 0:
+    q_values[GOAL[0], GOAL[1]] = 100
+
 # Create heatmap
 fig_q = go.Figure(data=go.Heatmap(
     z=q_values,
@@ -163,13 +171,15 @@ fig_q.add_annotation(
     x=0, y=0,
     text="START",
     showarrow=False,
-    font=dict(color='white', size=14, family='Arial Black')
+    font=dict(color='white', size=14, family='Arial Black'),
+    yshift=15
 )
 fig_q.add_annotation(
     x=4, y=4,
     text="GOAL",
     showarrow=False,
-    font=dict(color='white', size=14, family='Arial Black')
+    font=dict(color='white', size=14, family='Arial Black'),
+    yshift=15
 )
 
 fig_q.update_layout(
@@ -187,3 +197,44 @@ st.caption("""
 - As agent learns, path from START to GOAL becomes brighter
 - Dark areas are rarely visited or lead to poor outcomes
 """)
+
+# ========================================
+# LEARNING PROGRESS VISUALIZATION
+# ========================================
+
+# Visualizations
+if st.session_state.episodes_run > 0:
+    st.subheader("📈 Learning Progress")
+
+    # Learning curve
+    fig_progress = go.Figure()
+    fig_progress.add_trace(go.Scatter(
+        y=st.session_state.rewards_history,
+        mode='lines',
+        name='Episode Reward',
+        line=dict(color='#2c5aa0', width=1)
+    ))
+
+    # Add moving average if enough data
+    if len(st.session_state.rewards_history) > 10:
+        window = 10
+        moving_avg = np.convolve(
+            st.session_state.rewards_history,
+            np.ones(window)/window,
+            mode='valid'
+        )
+        fig_progress.add_trace(go.Scatter(
+            y=moving_avg,
+            mode='lines',
+            name=f'{window}-Episode Average',
+            line=dict(color='#ff6b6b', width=2)
+        ))
+
+        fig_progress.update_layout(
+            title='Rewards Over Time',
+            xaxis_title='Episode',
+            yaxis_title='Total Reward',
+            hovermode='x unified',
+            height=400
+        )
+        st.plotly_chart(fig_progress, use_container_width=True)
